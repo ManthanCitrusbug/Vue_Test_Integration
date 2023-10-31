@@ -1,6 +1,5 @@
 <template>
     <div class="container">
-        <Header />
         <h2>Login</h2>
         <div class="login-form">
             <div class="error-message" v-if="wrongCreds">Please check your email or password.</div> <br>
@@ -18,18 +17,13 @@
 </template>
 
 <script>
-import store from '@/store';
 import APIService from '../services/APIs';
 import router from '@/router';
-import Header from '../components/Header.vue';
 
 const API = new APIService();
 
 export default {
     name: "LoginView",
-    components: {
-        Header
-    },
     data() {
         return {
             loginData: {
@@ -52,8 +46,8 @@ export default {
             }
 
             if (loggedInUser) {
-                store.dispatch('setLoggedInUser', loggedInUser);
-                router.push('/about');
+                this.$store.dispatch('setLoggedInUser', {...loggedInUser, password: this.loginData.password});
+                router.push('/home');
             }
             
         }

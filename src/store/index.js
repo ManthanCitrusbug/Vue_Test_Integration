@@ -7,6 +7,7 @@ export default createStore({
       firstName: '',
       lastName: '',
       email: '',
+      password: '',
     }
   },
   getters: {
@@ -17,13 +18,16 @@ export default createStore({
       state.userDetails.firstName = payload.first_name;
       state.userDetails.lastName = payload.last_name;
       state.userDetails.email = payload.email;
+      state.userDetails.password = payload.password;
     }
   },
   actions: {
     setLoggedInUser({ commit }, payload) {
       commit('setLoggedInUser', payload)
+      let newUserData = {...this.state.userDetails};
+      delete newUserData.password;
       const storeData = {
-        value: this.state.userDetails,
+        value: newUserData,
         expiry: Date.now() + 5 * 60 * 1000
       }
       window.localStorage.setItem('loggedInUser', JSON.stringify(storeData));
