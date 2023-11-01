@@ -2,7 +2,7 @@
     <div class="header-container">
         <div class="header-options">
             <router-link to="/home">Dashboard</router-link>
-            <router-link to="/about">Add Book</router-link>
+            <router-link to="/add-new-book">Add Book</router-link>
             <router-link to="/profile">Profile</router-link>
         </div>
         <div class="header-options-logout">

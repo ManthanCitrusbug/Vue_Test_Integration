@@ -5,6 +5,7 @@ import PageNotFoundView from '../views/PageNotFoundView.vue';
 
 const HomeViewComponent = () => import('../views/HomeView.vue')
 const AboutViewComponent = () => import('../views/AboutView.vue')
+const AddNewViewComponent = () => import('../views/AddNewBookView.vue')
 
 const routes = [
   {
@@ -23,6 +24,14 @@ const routes = [
     name: 'home',
     components: {
       default: HomeViewComponent, header: Header
+    },
+    // component: HomeView
+  },
+  {
+    path: '/add-new-book',
+    name: 'addNewBook',
+    components: {
+      default: AddNewViewComponent, header: Header
     },
     // component: HomeView
   },
