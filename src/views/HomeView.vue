@@ -2,8 +2,8 @@
   <div class="home">
     <Loading v-if="booksCount == 0"/>
     <div class="container" v-if="booksCount > 0">
-      <h1>Books </h1>
-      <div class="contain-book-data" v-for='book in books' :key=book.id>
+      <h1>Books</h1>
+      <div class="contain-book-data" v-for='book in paginatedList' :key=book.id>
         <div class="book-data">
           <img :src="book.image" :alt="book.name" class="book-image">
           <div class="book-details">
@@ -15,6 +15,7 @@
           </div>
         </div>
       </div>
+      <Pagination :pagesLength='totalPages' @pageNumber="setBooksList" />
     </div>
   </div>
 </template>
@@ -23,25 +24,39 @@
 // @ is an alias to /src
 import APIService from '../services/APIs';
 import Loading from '@/components/Loading.vue';
+import Pagination from '@/components/Pagination.vue';
 
 const API = new APIService();
 
 export default {
   name: 'HomeView',
   components: {
-    Loading
+    Loading,
+    Pagination
   },
   data() {
     return {
-      books: []
+      books: [],
+      pageLength: 5,
+      paginatedList: [],
     }
   },
   async mounted() {
     this.books = await API.getBooks(this.$store.state.userDetails);
+    this.paginatedList = this.books;
+    this.setBooksList(1)
   },
   computed: {
     booksCount() {
-      return this.books.length;
+      return this.books?.length;
+    },
+    totalPages(){
+      return Math.ceil(this.booksCount / this.pageLength);
+    }
+  },
+  methods: {
+    setBooksList(page) {
+      this.paginatedList = this.books.slice((page * this.pageLength) - this.pageLength,  (page * this.pageLength));
     }
   }
 }
